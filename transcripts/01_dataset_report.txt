@@ -1,0 +1,24 @@
+Calibrating delayed_shipment base rate for seed=20240517, n=60 ...
+  base_rate= 0.1 -> realized delayed_pct= 8.33%  [out of band]
+  base_rate=0.15 -> realized delayed_pct=11.67%  [OK  (in [10,30])]
+  base_rate=0.18 -> realized delayed_pct=16.67%  [OK  (in [10,30])]
+  base_rate= 0.2 -> realized delayed_pct=16.67%  [OK  (in [10,30])]
+  base_rate=0.22 -> realized delayed_pct=23.33%  [OK  (in [10,30])]
+  base_rate=0.25 -> realized delayed_pct=26.67%  [OK  (in [10,30])]
+  base_rate= 0.3 -> realized delayed_pct=28.33%  [OK  (in [10,30])]
+
+=== Dataset validation report (Part 1 / Task 1) ===
+Total orders generated : 60 (>= 40 required: PASS)
+Category counts        : {'Apparel': 14, 'Electronics': 14, 'Home': 6, 'Footwear': 10, 'Beauty': 16}
+  -> every category >= 3: PASS (min = 6)
+Status counts           : {'Placed': 6, 'Shipped': 12, 'Delivered': 25, 'Returned': 7, 'Refunded': 10}
+  -> every status >= 1   : PASS (min = 6)
+Delayed shipments        : 10 / 60 = 16.67%
+  -> in [10%, 30%] band  : PASS
+
+Sample records:
+  Order(record_id='NYK-00001', category='Beauty', status='Shipped', order_value_inr=2299, days_since_created=7, delayed_shipment=False)
+  Order(record_id='NYK-00002', category='Footwear', status='Delivered', order_value_inr=4844, days_since_created=2, delayed_shipment=True)
+  Order(record_id='NYK-00003', category='Apparel', status='Returned', order_value_inr=2849, days_since_created=22, delayed_shipment=True)
+  Order(record_id='NYK-00004', category='Apparel', status='Delivered', order_value_inr=327, days_since_created=13, delayed_shipment=False)
+  Order(record_id='NYK-00005', category='Beauty', status='Delivered', order_value_inr=359, days_since_created=30, delayed_shipment=False)

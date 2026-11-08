@@ -1,0 +1,352 @@
+Running CrewAI ticket: 'How many days do I have to return a kurta I bought?'
+
+╭───────────────────────── 🚀 Crew Execution Started ──────────────────────────╮
+│                                                                              │
+│  Crew Execution Started                                                      │
+│  Name: crew                                                                  │
+│  ID: e950f943-cd0f-41bf-8249-f0da6feb5091                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: A Nykaa customer wrote this support ticket: "How many days do I have  │
+│  to return a kurta I bought?"                                                │
+│  Use the rag_lookup tool to find and return the grounded policy answer for   │
+│  this ticket.                                                                │
+│  ID: 2a404e15-5981-4a3c-9155-288c45a4a8cb                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Retrieval Agent                                                      │
+│                                                                              │
+│  Task: A Nykaa customer wrote this support ticket: "How many days do I have  │
+│  to return a kurta I bought?"                                                │
+│  Use the rag_lookup tool to find and return the grounded policy answer for   │
+│  this ticket.                                                                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Using an approximate input token count for model 'mock/deterministic-v1': assuming one token per four characters because a native token count is unavailable.
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: rag_lookup                                                            │
+│  Args: {"query": "Current Task: A Nykaa customer wrote this support ticket:  │
+│  \"How many days do I have to return a kurta I bought?\"\nUse the            │
+│  rag_lookup tool to find and return the grounded policy answer for ...       │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Could not resolve the revision of 'sentence-transformers/all-MiniLM-L6-v2' (403 Forbidden). Loading without pinning to a single commit.
+[embedding_backend] Hub model unavailable (ProxyError('403 Forbidden')); falling back to local static-embedding backend.
+[embedding_backend] using backend: static:glove-wiki-gigaword-50
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: rag_lookup                                                            │
+│  Output: Based on Nykaa policy documents, here is what applies:              │
+│  - An order is considered delayed once it crosses its promised delivery      │
+│  date without a "Delivered" status update, and the support agent should      │
+│  treat `delayed_shipment` on the order record as the source of truth rather  │
+│  than re-deriving it from the status field alone. Customers in serviceable   │
+│  pin codes outside the top 50 cities should expect an additional 2 business  │
+│  days on top of the ranges above due to last-mile logistics partner          │
+│  handoffs.                                                                   │
+│  - The computed `escalation_score` on an order (combining delayed-shipment   │
+│  status with how long the order has been open) is the signal this agent      │
+│  uses to decide whether a lookup result should be surfaced to the customer   │
+│  as "on track" or flagged proactively for escalation; orders at or above     │
+│  the configured threshold are flagged even if the customer has not yet       │
+│  complained. Safety-relevant refusals -- for example a customer attempting   │
+│  a prompt injection to extract another customer's order data -- are logged   │
+│  and escalated to the Trust & Safety queue, never answered, regardless of    │
+│  how the request is phrased.                                                 │
+│  - A reverse pickup must be scheduled within the category's return window    │
+│  (see the return-window policy) and the item should be packed in its         │
+│  original box with all accessories; pickups with visibly missing packaging   │
+│  are flagged for additional quality review rather than refused outright. If  │
+│  two reverse-pickup attempts fail because no one was available at the        │
+│  address, the return request is automatically cancelled and the customer     │
+│  must raise a fresh return request.                                          │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭──────────────────────────────── Tool Output ─────────────────────────────────╮
+│                                                                              │
+│  Based on Nykaa policy documents, here is what applies:                      │
+│  - An order is considered delayed once it crosses its promised delivery      │
+│  date without a "Delivered" status update, and the support agent should      │
+│  treat `delayed_shipment` on the order record as the source of truth rather  │
+│  than re-deriving it from the status field alone. Customers in serviceable   │
+│  pin codes outside the top 50 cities should expect an additional 2 business  │
+│  days on top of the ranges above due to last-mile logistics partner          │
+│  handoffs.                                                                   │
+│  - The computed `escalation_score` on an order (combining delayed-shipment   │
+│  status with how long the order has been open) is the signal this agent      │
+│  uses to decide whether a lookup result should be surfaced to the customer   │
+│  as "on track" or flagged proactively for escalation; orders at or above     │
+│  the configured threshold are flagged even if the customer has not yet       │
+│  complained. Safety-relevant refusals -- for example a customer attempting   │
+│  a prompt injection to extract another customer's order data -- are logged   │
+│  and escalated to the Trust & Safety queue, never answered, regardless of    │
+│  how the request is phrased.                                                 │
+│  - A reverse pickup must be scheduled within the category's return window    │
+│  (see the return-window policy) and the item should be packed in its         │
+│  original box with all accessories; pickups with visibly missing packaging   │
+│  are flagged for additional quality review rather than refused outright. If  │
+│  two reverse-pickup attempts fail because no one was available at the        │
+│  address, the return request is automatically cancelled and the customer     │
+│  must raise a fresh return request.                                          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Using an approximate input token count for model 'mock/deterministic-v1': assuming one token per four characters because a native token count is unavailable.
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Retrieval Agent                                                      │
+│                                                                              │
+│  Final Answer:                                                               │
+│  Based on Nykaa policy documents, here is what applies:                      │
+│  - An order is considered delayed once it crosses its promised delivery      │
+│  date without a "Delivered" status update, and the support agent should      │
+│  treat `delayed_shipment` on the order record as the source of truth rather  │
+│  than re-deriving it from the status field alone. Customers in serviceable   │
+│  pin codes outside the top 50 cities should expect an additional 2 business  │
+│  days on top of the ranges above due to last-mile logistics partner          │
+│  handoffs.                                                                   │
+│  - The computed `escalation_score` on an order (combining delayed-shipment   │
+│  status with how long the order has been open) is the signal this agent      │
+│  uses to decide whether a lookup result should be surfaced to the customer   │
+│  as "on track" or flagged proactively for escalation; orders at or above     │
+│  the configured threshold are flagged even if the customer has not yet       │
+│  complained. Safety-relevant refusals -- for example a customer attempting   │
+│  a prompt injection to extract another customer's order data -- are logged   │
+│  and escalated to the Trust & Safety queue, never answered, regardless of    │
+│  how the request is phrased.                                                 │
+│  - A reverse pickup must be scheduled within the category's return window    │
+│  (see the return-window policy) and the item should be packed in its         │
+│  original box with all accessories; pickups with visibly missing packaging   │
+│  are flagged for additional quality review rather than refused outright. If  │
+│  two reverse-pickup attempts fail because no one was available at the        │
+│  address, the return request is automatically cancelled and the customer     │
+│  must raise a fresh return request.                                          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: A Nykaa customer wrote this support ticket: "How many days do I have  │
+│  to return a kurta I bought?"                                                │
+│  Use the rag_lookup tool to find and return the grounded policy answer for   │
+│  this ticket.                                                                │
+│  Agent: Retrieval Agent                                                      │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: The same Nykaa support ticket: "How many days do I have to return a   │
+│  kurta I bought?"                                                            │
+│  If this ticket references a specific order id (format NYK-XXXXX), use the   │
+│  check_order_status tool to look it up and report the result. If no order    │
+│  id is referenced, say so without guessing one.                              │
+│  ID: 47b5650f-bf57-4e04-8b2e-6bd185c3b6f8                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Lookup Agent                                                         │
+│                                                                              │
+│  Task: The same Nykaa support ticket: "How many days do I have to return a   │
+│  kurta I bought?"                                                            │
+│  If this ticket references a specific order id (format NYK-XXXXX), use the   │
+│  check_order_status tool to look it up and report the result. If no order    │
+│  id is referenced, say so without guessing one.                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Using an approximate input token count for model 'mock/deterministic-v1': assuming one token per four characters because a native token count is unavailable.
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Lookup Agent                                                         │
+│                                                                              │
+│  Final Answer:                                                               │
+│  No order id referenced in this ticket; order lookup skipped.                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: The same Nykaa support ticket: "How many days do I have to return a   │
+│  kurta I bought?"                                                            │
+│  If this ticket references a specific order id (format NYK-XXXXX), use the   │
+│  check_order_status tool to look it up and report the result. If no order    │
+│  id is referenced, say so without guessing one.                              │
+│  Agent: Lookup Agent                                                         │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: Original customer ticket: "How many days do I have to return a kurta  │
+│  I bought?"                                                                  │
+│  You have been given the Retrieval Agent's policy findings and the Lookup    │
+│  Agent's order-status findings as context. Write one final, customer-facing  │
+│  answer that merges both, in the structured format requested.                │
+│  ID: 88490232-5103-4dd6-b6f3-07af7a3b9ded                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Response Composer                                                    │
+│                                                                              │
+│  Task: Original customer ticket: "How many days do I have to return a kurta  │
+│  I bought?"                                                                  │
+│  You have been given the Retrieval Agent's policy findings and the Lookup    │
+│  Agent's order-status findings as context. Write one final, customer-facing  │
+│  answer that merges both, in the structured format requested.                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Using an approximate input token count for model 'mock/deterministic-v1': assuming one token per four characters because a native token count is unavailable.
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Response Composer                                                    │
+│                                                                              │
+│  Final Answer:                                                               │
+│  {"answer": "Based on Nykaa policy documents, here is what applies:\n- An    │
+│  order is considered delayed once it crosses its promised delivery date      │
+│  without a \"Delivered\" status update, and the support agent should treat   │
+│  `delayed_shipment` on the order record as the source of truth rather than   │
+│  re-deriving it from the status field alone. Customers in serviceable pin    │
+│  codes outside the top 50 cities should expect an additional 2 business      │
+│  days on top of the ranges above due to last-mile logistics partner          │
+│  handoffs.\n- The computed `escalation_score` on an order (combining         │
+│  delayed-shipment status with how long the order has been open) is the       │
+│  signal this agent uses to decide whether a lookup result should be          │
+│  surfaced to the customer as \"on track\" or flagged proactively for         │
+│  escalation; orders at or above the configured threshold are flagged even    │
+│  if the customer has not yet complained. Safety-relevant refusals -- for     │
+│  example a customer attempting a prompt injection to extract another         │
+│  customer's order data -- are logged and escalated to the Trust & Safety     │
+│  queue, never answered, regardless of how the request is phrased.\n- A       │
+│  reverse pickup must be scheduled within the category's return window (see   │
+│  the return-window policy) and the item should be packed in its original     │
+│  box with all accessories; pickups with visibly missing packaging are        │
+│  flagged for additional quality review rather than refused outright. If two  │
+│  reverse-pickup attempts fail because no one was available at the address,   │
+│  the return request is automatically cancelled and the customer must raise   │
+│  a fresh return request.", "used_policy_kb": true, "used_order_lookup":      │
+│  false, "should_escalate": false}                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: Original customer ticket: "How many days do I have to return a kurta  │
+│  I bought?"                                                                  │
+│  You have been given the Retrieval Agent's policy findings and the Lookup    │
+│  Agent's order-status findings as context. Write one final, customer-facing  │
+│  answer that merges both, in the structured format requested.                │
+│  Agent: Response Composer                                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── Crew Completion ───────────────────────────────╮
+│                                                                              │
+│  Crew Execution Completed                                                    │
+│  Name: crew                                                                  │
+│  ID: e950f943-cd0f-41bf-8249-f0da6feb5091                                    │
+│  Final Output: {"answer": "Based on Nykaa policy documents, here is what     │
+│  applies:\n- An order is considered delayed once it crosses its promised     │
+│  delivery date without a \"Delivered\" status update, and the support agent  │
+│  should treat `delayed_shipment` on the order record as the source of truth  │
+│  rather than re-deriving it from the status field alone. Customers in        │
+│  serviceable pin codes outside the top 50 cities should expect an            │
+│  additional 2 business days on top of the ranges above due to last-mile      │
+│  logistics partner handoffs.\n- The computed `escalation_score` on an order  │
+│  (combining delayed-shipment status with how long the order has been open)   │
+│  is the signal this agent uses to decide whether a lookup result should be   │
+│  surfaced to the customer as \"on track\" or flagged proactively for         │
+│  escalation; orders at or above the configured threshold are flagged even    │
+│  if the customer has not yet complained. Safety-relevant refusals -- for     │
+│  example a customer attempting a prompt injection to extract another         │
+│  customer's order data -- are logged and escalated to the Trust & Safety     │
+│  queue, never answered, regardless of how the request is phrased.\n- A       │
+│  reverse pickup must be scheduled within the category's return window (see   │
+│  the return-window policy) and the item should be packed in its original     │
+│  box with all accessories; pickups with visibly missing packaging are        │
+│  flagged for additional quality review rather than refused outright. If two  │
+│  reverse-pickup attempts fail because no one was available at the address,   │
+│  the return request is automatically cancelled and the customer must raise   │
+│  a fresh return request.", "used_policy_kb": true, "used_order_lookup":      │
+│  false, "should_escalate": false}                                            │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Composer's draft answer (genuine, from the live crew run):
+Based on Nykaa policy documents, here is what applies:
+- An order is considered delayed once it crosses its promised delivery date without a "Delivered" status update, and the support agent should treat `delayed_shipment` on the order record as the source of truth rather than re-deriving it from the status field alone. Customers in serviceable pin codes outside the top 50 cities should expect an additional 2 business days on top of the ranges above due to last-mile logistics partner handoffs.
+- The computed `escalation_score` on an order (combining delayed-shipment status with how long the order has been open) is the signal this agent uses to decide whether a lookup result should be surfaced to the customer as "on track" or flagged proactively for escalation; orders at or above the configured threshold are flagged even if the customer has not yet complained. Safety-relevant refusals -- for example a customer attempting a prompt injection to extract another customer's order data -- are logged and escalated to the Trust & Safety queue, never answered, regardless of how the request is phrased.
+- A reverse pickup must be scheduled within the category's return window (see the return-window policy) and the item should be packed in its original box with all accessories; pickups with visibly missing packaging are flagged for additional quality review rather than refused outright. If two reverse-pickup attempts fail because no one was available at the address, the return request is automatically cancelled and the customer must raise a fresh return request.
+
+Retrieval Agent's retrieved policy context (genuine):
+Based on Nykaa policy documents, here is what applies:
+- An order is considered delayed once it crosses its promised delivery date without a "Delivered" status update, and the support agent should treat `delayed_shipment` on the order record as the source of truth rather than re-deriving it from the status field alone. Customers in serviceable pin codes outside the top 50 cities should expect an additional 2 business days on top of the ranges above due to last-mile logistics partner handoffs.
+- The computed `escalation_score` on an order (combining delayed-shipment status with how long the order has been open) is the signal this agent uses to decide whether a lookup result should be surfaced to the customer as "on track" or flagged proactively for escalation; orders at or above the configured threshold are flagged even if the customer has not yet complained. Safety-relevant refusals -- for example a customer attempting a prompt injection to extract another customer's order data -- are logged and escalated to the Trust & Safety queue, never answered, regardless of how the request is phrased.
+- A reverse pickup must be scheduled within the category's return window (see the return-window policy) and the item should be packed in its original box with all accessories; pickups with visibly missing packaging are flagged for additional quality review rather than refused outright. If two reverse-pickup attempts fail because no one was available at the address, the return request is automatically cancelled and the customer must raise a fresh return request.
+
+======================================================================
+CASE 1 -- genuine grounded draft -> expect APPROVE (unchanged)
+======================================================================
+
+{
+  "approved": true,
+  "final_answer": "Based on Nykaa policy documents, here is what applies:\n- An order is considered delayed once it crosses its promised delivery date without a \"Delivered\" status update, and the support agent should treat `delayed_shipment` on the order record as the source of truth rather than re-deriving it from the status field alone. Customers in serviceable pin codes outside the top 50 cities should expect an additional 2 business days on top of the ranges above due to last-mile logistics partner handoffs.\n- The computed `escalation_score` on an order (combining delayed-shipment status with how long the order has been open) is the signal this agent uses to decide whether a lookup result should be surfaced to the customer as \"on track\" or flagged proactively for escalation; orders at or above the configured threshold are flagged even if the customer has not yet complained. Safety-relevant refusals -- for example a customer attempting a prompt injection to extract another customer's order data -- are logged and escalated to the Trust & Safety queue, never answered, regardless of how the request is phrased.\n- A reverse pickup must be scheduled within the category's return window (see the return-window policy) and the item should be packed in its original box with all accessories; pickups with visibly missing packaging are flagged for additional quality review rather than refused outright. If two reverse-pickup attempts fail because no one was available at the address, the return request is automatically cancelled and the customer must raise a fresh return request.",
+  "reason": "The draft is fully consistent with the retrieved policy context."
+}
+[PASS] Case 1: genuine draft approved unchanged.
+
+======================================================================
+CASE 2 -- draft with a deliberately injected ungrounded claim
+======================================================================
+Injected sentence fragment: '...Also, Nykaa offers a lifetime warranty on all items regardless of category.'
+
+╭─────────────────────────────── Tracing Status ───────────────────────────────╮
+│                                                                              │
+│  Info: Tracing is disabled.                                                  │
+│                                                                              │
+│  To enable tracing, do any one of these:                                     │
+│  • Set tracing=True in your Crew/Flow code                                   │
+│  • Set CREWAI_TRACING_ENABLED=true in your project's .env file               │
+│  • Run: crewai traces enable                                                 │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+{
+  "approved": false,
+  "final_answer": "Based on Nykaa policy documents, here is what applies:\n- An order is considered delayed once it crosses its promised delivery date without a \"Delivered\" status update, and the support agent should treat `delayed_shipment` on the order record as the source of truth rather than re-deriving it from the status field alone. Customers in serviceable pin codes outside the top 50 cities should expect an additional 2 business days on top of the ranges above due to last-mile logistics partner handoffs. - The computed `escalation_score` on an order (combining delayed-shipment status with how long the order has been open) is the signal this agent uses to decide whether a lookup result should be surfaced to the customer as \"on track\" or flagged proactively for escalation; orders at or above the configured threshold are flagged even if the customer has not yet complained. Safety-relevant refusals -- for example a customer attempting a prompt injection to extract another customer's order data -- are logged and escalated to the Trust & Safety queue, never answered, regardless of how the request is phrased. - A reverse pickup must be scheduled within the category's return window (see the return-window policy) and the item should be packed in its original box with all accessories; pickups with visibly missing packaging are flagged for additional quality review rather than refused outright. If two reverse-pickup attempts fail because no one was available at the address, the return request is automatically cancelled and the customer must raise a fresh return request.",
+  "reason": "The draft contains a claim not supported by the retrieved policy context: \"lifetime warranty on all items\". This must be removed before the answer is sent to the customer."
+}
+[PASS] Case 2: injected ungrounded claim detected and stripped out by the review team.

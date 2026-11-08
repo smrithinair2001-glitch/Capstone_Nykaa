@@ -1,0 +1,3 @@
+# Return Window by Product Category
+
+Nykaa accepts returns within 15 days of delivery for Beauty items, provided the hygiene seal is intact and the product is unused. Apparel and Footwear carry a longer 30-day return window because fit issues are the most common reason customers send these back, and they must be returned in original packaging with tags attached. Electronics may only be returned within 10 days of delivery and solely for a manufacturing defect confirmed at doorstep inspection or through the diagnostics described in the warranty policy. Home category items follow a 20-day window, except assembled furniture, which cannot be returned once installation has begun. Any item marked "Final Sale" at checkout is excluded from all of the above windows.

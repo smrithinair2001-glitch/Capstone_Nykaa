@@ -1,0 +1,50 @@
+=== Threshold calibration against collection 'kb_sentence' ===
+Could not resolve the revision of 'sentence-transformers/all-MiniLM-L6-v2' (403 Forbidden). Loading without pinning to a single commit.
+[embedding_backend] Hub model unavailable (ProxyError('403 Forbidden')); falling back to local static-embedding backend.
+[embedding_backend] using backend: static:glove-wiki-gigaword-50
+  [in-scope]     top1_sim=0.901  query='How many days do I have to return a kurta I bought?'
+  [in-scope]     top1_sim=0.904  query='What is the refund timeline for a cash on delivery order?'
+  [in-scope]     top1_sim=0.945  query='Is my electronics order covered under warranty?'
+  [out-of-scope] top1_sim=0.706  query='Who directed the movie Inception?'
+  [out-of-scope] top1_sim=0.783  query='Tell me a joke about programmers.'
+
+  min(in-scope top1 sim)     = 0.901
+  max(out-of-scope top1 sim) = 0.783
+  Clusters are separated -> choosing midpoint threshold = 0.842
+
+>>> SIMILARITY_THRESHOLD set to 0.842 for the rest of this demo <<<
+
+=== Grounded-generation demo: 5 in-scope queries ===
+
+Q: How many days do I have to return a kurta I bought?
+   top1_similarity=0.901  fallback=False
+   A: Based on Nykaa policy documents, here is what applies:
+- Nykaa accepts returns within 15 days of delivery for Beauty items, provided the hygiene seal is intact and the product is unused. Apparel and Footwear carry a longer 30-day return window because fit issues are the most common reason customers 
+
+Q: What is the refund timeline for a cash on delivery order?
+   top1_similarity=0.904  fallback=False
+   A: Based on Nykaa policy documents, here is what applies:
+- Because a COD order has no card or wallet to refund to automatically, Nykaa first collects the customer's preferred bank account or UPI ID once a return is picked up and quality-checked. Refunds for COD orders are credited within 7 to 10 busin
+
+Q: Is my electronics order covered under warranty?
+   top1_similarity=0.945  fallback=False
+   A: Based on Nykaa policy documents, here is what applies:
+- Electronics sold on Nykaa carry the original manufacturer's warranty, typically 1 year for small appliances and personal gadgets, and the brand's authorized service center handles claims rather than Nykaa directly. Home category appliances car
+
+Q: Can I cancel my order after it has already shipped?
+   top1_similarity=0.953  fallback=False
+   A: Based on Nykaa policy documents, here is what applies:
+- An order can be cancelled free of charge any time before its status changes from "Placed" to "Shipped." Once an order has moved to "Shipped," it can no longer be cancelled in the system and the customer must instead wait for delivery and then 
+
+Q: Can I exchange my shoes for a different size?
+   top1_similarity=0.939  fallback=False
+   A: Based on Nykaa policy documents, here is what applies:
+- A size exchange is logged and fulfilled as a reverse pickup of the original item paired with a fresh forward shipment of the new size, rather than as a swap at the doorstep, so both legs follow the normal reverse-pickup and delivery SLAs descr
+
+=== Grounded-generation demo: 1 deliberately out-of-scope query ===
+
+Q: Can you write a poem about the ocean?
+   top1_similarity=0.766  fallback=True
+   A: I don't have grounded information in the Nykaa policy knowledge base to answer that confidently, so I can't give you a reliable answer here. I'll escalate this to a human support associate.
+
+[PASS] Out-of-scope query correctly triggered the 'I don't know' fallback.

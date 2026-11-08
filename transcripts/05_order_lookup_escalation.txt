@@ -1,0 +1,16 @@
+=== Escalation-score threshold justification ===
+n_orders = 60
+80th percentile of days_since_created = 22 days
+  -> escalation_score if that order is ALSO delayed  : 0.6*1 + 0.4*(22/30) = 0.8933
+  -> escalation_score if that order is NOT delayed   : 0.6*0 + 0.4*(22/30) = 0.2933
+Chosen ESCALATION_THRESHOLD = 0.5
+  -> 16.67% of the 60 generated orders currently cross this threshold.
+
+=== check_order_status() demo ===
+  {'record_id': 'NYK-00001', 'status': 'Shipped', 'order_value_inr': 2299, 'escalation_score': 0.0933, 'should_escalate': False}
+  {'record_id': 'NYK-00002', 'status': 'Delivered', 'order_value_inr': 4844, 'escalation_score': 0.6267, 'should_escalate': True}
+  {'record_id': 'NYK-00003', 'status': 'Returned', 'order_value_inr': 2849, 'escalation_score': 0.8933, 'should_escalate': True}
+  {'record_id': 'NYK-00004', 'status': 'Delivered', 'order_value_inr': 327, 'escalation_score': 0.1733, 'should_escalate': False}
+
+=== Unknown record_id raises KeyError ===
+  Raised as expected: "No such order record_id: 'NYK-99999'"

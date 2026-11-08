@@ -1,0 +1,91 @@
+
+=== Collection: kb_fixed_overlap (top_k=3) ===
+Could not resolve the revision of 'sentence-transformers/all-MiniLM-L6-v2' (403 Forbidden). Loading without pinning to a single commit.
+[embedding_backend] Hub model unavailable (ProxyError('403 Forbidden')); falling back to local static-embedding backend.
+[embedding_backend] using backend: static:glove-wiki-gigaword-50
+
+Q: How many days do I have to return a kurta I bought?
+   retrieved (deduped, rank order): ['08_payment_failure_retry', '03_delivery_sla']
+   relevant (ground truth):         ['01_return_window']
+   hits = retrieved ∩ relevant = []  (|hits|=0)
+   precision = |hits| / |retrieved| = 0/2 = 0.000
+   recall    = |hits| / |relevant|  = 0/1 = 0.000
+
+Q: What is the refund timeline for a cash on delivery order?
+   retrieved (deduped, rank order): ['02_cod_refund_timeline', '06_order_cancellation', '04_reverse_pickup_eligibility']
+   relevant (ground truth):         ['02_cod_refund_timeline']
+   hits = retrieved ∩ relevant = ['02_cod_refund_timeline']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/3 = 0.333
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: Is my electronics order covered under warranty?
+   retrieved (deduped, rank order): ['05_warranty_terms']
+   relevant (ground truth):         ['05_warranty_terms']
+   hits = retrieved ∩ relevant = ['05_warranty_terms']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/1 = 1.000
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: Can I cancel my order after it has already shipped?
+   retrieved (deduped, rank order): ['06_order_cancellation', '10_damaged_item_claim']
+   relevant (ground truth):         ['06_order_cancellation']
+   hits = retrieved ∩ relevant = ['06_order_cancellation']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/2 = 0.500
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: Can I exchange my shoes for a different size?
+   retrieved (deduped, rank order): ['09_size_exchange', '01_return_window']
+   relevant (ground truth):         ['09_size_exchange']
+   hits = retrieved ∩ relevant = ['09_size_exchange']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/2 = 0.500
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+=== Collection: kb_sentence (top_k=3) ===
+
+Q: How many days do I have to return a kurta I bought?
+   retrieved (deduped, rank order): ['01_return_window', '03_delivery_sla', '08_payment_failure_retry']
+   relevant (ground truth):         ['01_return_window']
+   hits = retrieved ∩ relevant = ['01_return_window']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/3 = 0.333
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: What is the refund timeline for a cash on delivery order?
+   retrieved (deduped, rank order): ['02_cod_refund_timeline', '06_order_cancellation']
+   relevant (ground truth):         ['02_cod_refund_timeline']
+   hits = retrieved ∩ relevant = ['02_cod_refund_timeline']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/2 = 0.500
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: Is my electronics order covered under warranty?
+   retrieved (deduped, rank order): ['05_warranty_terms', '01_return_window']
+   relevant (ground truth):         ['05_warranty_terms']
+   hits = retrieved ∩ relevant = ['05_warranty_terms']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/2 = 0.500
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: Can I cancel my order after it has already shipped?
+   retrieved (deduped, rank order): ['06_order_cancellation', '10_damaged_item_claim', '02_cod_refund_timeline']
+   relevant (ground truth):         ['06_order_cancellation']
+   hits = retrieved ∩ relevant = ['06_order_cancellation']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/3 = 0.333
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+Q: Can I exchange my shoes for a different size?
+   retrieved (deduped, rank order): ['09_size_exchange', '01_return_window', '05_warranty_terms']
+   relevant (ground truth):         ['09_size_exchange']
+   hits = retrieved ∩ relevant = ['09_size_exchange']  (|hits|=1)
+   precision = |hits| / |retrieved| = 1/3 = 0.333
+   recall    = |hits| / |relevant|  = 1/1 = 1.000
+
+=== Aggregate (macro-average over the 5 queries) ===
+
+kb_fixed_overlap:
+  avg_precision = (0.000 + 0.333 + 1.000 + 0.500 + 0.500) / 5 = 0.467
+  avg_recall    = (0.000 + 1.000 + 1.000 + 1.000 + 1.000) / 5 = 0.800
+
+kb_sentence:
+  avg_precision = (0.333 + 0.500 + 0.500 + 0.333 + 0.333) / 5 = 0.400
+  avg_recall    = (1.000 + 1.000 + 1.000 + 1.000 + 1.000) / 5 = 1.000
+
+=== Recommendation ===
+Fixed-size-with-overlap scored avg_precision=0.467, avg_recall=0.800; sentence-based scored avg_precision=0.400, avg_recall=1.000. 
+Recommendation: deploy 'kb_sentence' for Part 2. The two strategies trade off precision against recall on these 5 queries (kb_fixed_overlap misses the relevant document entirely on the first query, pulling its recall down to 0.800, while kb_sentence retrieves the relevant document in the top-3 on every single query, for recall=1.000). For a support agent, failing to surface the one document that actually answers the customer is worse than returning one extra, slightly-off-topic chunk alongside the right one, so the higher-recall collection is the better default even though it costs a few points of precision (0.400 vs 0.467).

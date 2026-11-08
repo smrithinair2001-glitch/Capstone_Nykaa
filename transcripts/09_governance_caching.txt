@@ -1,0 +1,24 @@
+=== Task 15a: Application-layer least-autonomy ===
+  retrieval agent tools: ['rag_lookup']
+  lookup agent tools: ['check_order_status']
+  composer agent tools: []
+  only_lookup_agent_has_check_order_status = True
+  [PASS] check_order_status is wired to exactly one agent (Lookup Agent); it is never attached to Retrieval or Composer, so they cannot call it even if their prompts asked them to.
+
+=== Task 15b: Risk classification ===
+  Risk level: Medium
+  Justification: This system falls into the Medium risk tier of the Low/Medium/High scheme: it is a customer-support ticket system (the scheme's own example of a Medium-risk workload), not a Low-risk pure summarization/transcription tool, and not a High-risk system making medical, hiring, or financial decisions. It does read order value (order_value_inr) and escalation signals, but only to route a support ticket, not to approve a loan, set a price, or make any irreversible financial decision on its own -- every should_escalate outcome still lands on a human associate (see the escalation matrix in the knowledge base), so the system's own autonomy stops at routing/drafting, consistent with Medium rather than High risk.
+
+=== Task 15c: Runtime per-request cost-budget cap ===
+  normal ticket (51 chars) -> estimated 12 tokens -> accepted (cap=500)
+  oversized ticket length: 3240 chars, estimated 810 tokens
+  [PASS] guardrail fired: Request is estimated at 810 tokens, which exceeds the per-request budget cap of 500 tokens.
+
+=== Task 16: Response caching ===
+Could not resolve the revision of 'sentence-transformers/all-MiniLM-L6-v2' (403 Forbidden). Loading without pinning to a single commit.
+[embedding_backend] Hub model unavailable (ProxyError('403 Forbidden')); falling back to local static-embedding backend.
+[embedding_backend] using backend: static:glove-wiki-gigaword-50
+  1st call: cache_hit=False  elapsed=14.8914s
+  2nd call (identical query): cache_hit=True  elapsed=0.0000s
+  cache stats: {'hits': 1, 'misses': 1}
+  [PASS] repeated identical query produced a cache hit and skipped the redundant retrieval call (evidenced by the hit/miss counters above, and the 2nd call's near-zero elapsed time vs. the 1st).
